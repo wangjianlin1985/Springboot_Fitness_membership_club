@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('列表')" />
+</head>
+<!-- 上面引入了shiro的thymeleaf支持 -->
+<!-- 引入用到的css -->
+
+<body class="gray-bg">
+
+	<div class="container-div">
+		<div class="row">
+			<div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" >
+	                <i class="fa fa-plus"></i> 新增
+	            </a>
+	        </div>
+	        
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+			
+		</div>
+	</div>
+	
+	
+	<th:block th:include="include :: footer" />
+	
+	
+	<script th:inline="javascript">
+		var machineId=[[${machineId}]]
+		var prefix = ctx + "club/machine/io";
+		$(function() {
+		    var options = {
+		        url: prefix + "/list?machineId="+machineId,
+		        createUrl: prefix + "/add/"+machineId,
+		        removeUrl: prefix + "/remove",
+		        modalName: "进出",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'id',
+		            title: '编号'
+		        },
+		        {
+		            field: 'time',
+		            title: '时间'
+		        },
+		        {
+		            field: 'num',
+		            title: '数量'
+		        },
+		        {
+		            field: 'io',
+		            title: '进出',
+		            formatter: function(value, row, index) {
+						if(value==1){
+							return '出'
+						} else {
+							return '进'
+						}
+					}
+		        },
+		        {
+		            field: 'type',
+		            title: '类型'
+		        }]
+		    };
+		    $.table.init(options);
+		});
+	</script>
+	
+</body>
+</html>

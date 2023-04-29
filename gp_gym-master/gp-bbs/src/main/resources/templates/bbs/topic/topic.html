@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	<head>
+		<link rel="stylesheet" th:href="@{/bbs/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/global.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/mylay.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/wap2app.css}">
+		<link rel="icon"  type="image/x-icon">
+		<script th:src="@{/bbs/js/util.js}"></script>
+		<script th:src="@{/bbs/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/bbs/js/community.js}" type="application/javascript"></script>
+		<script th:src="@{/bbs/js/sweetalert.min.js}"></script>
+		<script th:src="@{/bbs/js/plusShare.js}" type="text/javascript"></script>
+		<script th:src="@{/bbs/js/wap2app.js}" type="text/javascript"></script>
+		<link rel="stylesheet" th:href="@{/bbs/css/community.css}">
+		<title>
+			健身俱乐部
+		</title>
+		
+	</head>
+	<body style="margin-top: 0px;">
+		<div class="layui-container">
+			<div class="layui-row layui-col-space15">
+				<div class="layui-col-md8">
+					<div class="fly-panel" style="margin-bottom: 0;">
+						<div class="fly-panel-title fly-filter">
+							<a th:each="section : ${sectionList}" th:class="${section.active} ? 'layui-this' : '' "
+							th:href="${'/gym/bbs/topic/index?sectionId='+section.id}"
+							 class="" th:text="${section.name}"></a>
+							 
+							 <span class="fly-mid"></span>
+							 <button onclick="newTopic()" type="button" >发表新帖</button>
+						</div>
+						<ul class="fly-list">
+							<li th:each="topic : ${topicList}" >
+								<div>
+									<a class="fly-avatar niter-avatar">
+										<img  th:src="@{${topic.user.avatar}}" th:alt="${topic.user.userName}">
+									</a>
+									<h2>
+										<a class="layui-badge" th:text="${topic.roleName}" >角色</a>
+										<a th:href="${'/gym/bbs/topic/detail?id='+topic.id}" target="_blank"  th:title="${topic.title}" th:text="${topic.title}" >标题</a>
+									</h2>
+									<div class="fly-list-info">
+										<a link=""><cite th:text="${topic.user.userName}">发表人</cite></a>
+										
+										<span th:text="${topic.time}">时间</span>
+										
+										<span class="fly-list-nums">
+											<i class="iconfont layui-hide-xs" title="浏览"></i>
+											<span class="layui-hide-xs" th:text="${topic.numSee}"></span>
+											<i class="iconfont icon-pinglun1" title="回复"></i>
+											<span th:text="${topic.numReply}"></span>
+										</span>
+									</div>
+									<div class="fly-list-badge">
+									</div>
+								</div>
+							</li>
+							
+							
+						</ul>
+						
+					</div>
+				</div>
+				<div class="layui-col-md4">
+					<div class="fly-panel fly-rank fly-rank-reply" id="LAY_replyRank">
+						<h3 class="fly-panel-title">
+							版主
+						</h3>
+						<dl>
+							<dd>
+								<a  class="niter-avatar">
+									<img th:src="@{${banzhu.avatar}}">
+									<i th:text="${banzhu.userName}">
+										姓名
+									</i>
+								</a>
+							</dd>
+							
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script	>
+		function newTopic(){
+			window.location.href = '/gym/bbs/topic/newTopic'
+		}
+	</script>
+
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.bbs.dao.ReplyDao">
+	
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.time,
+			a.content,
+			a.topic_id as "topic.id",
+			a.user_id as "user.userId",
+			c.user_name as "user.userName",
+			c.avatar as "user.avatar"
+		from bbs_reply a 
+			left join sys_user c on a.user_id = c.user_id
+	</sql>
+	
+	<select id="list" parameterType="Reply" resultType="Reply" >
+		<include refid="selectAllVO" />
+		where 1 = 1 
+		<if test="user != null and user.userId != null">
+			and a.user_id = #{user.userId}
+		</if>
+		<if test="topic != null and topic.id != null">
+			and a.topic_id = #{topic.id}
+		</if>
+		order by a.time desc
+	</select>
+	
+	<select id="getById" parameterType="Long" resultType="Reply" >
+		<include refid="selectAllVO" />
+		where a.id = #{id}
+	</select>
+	
+	<insert id="add">
+		insert into bbs_reply(time,content,topic_id,user_id) 
+		values(#{time},#{content},#{topic.id},#{user.userId})
+	</insert>
+	
+	<delete id="deleteById">
+		delete from bbs_reply where id = #{id}
+	</delete>
+	
+</mapper>

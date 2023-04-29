@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.LevelDao">
+	
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.name,
+			a.sort,
+			a.start,
+			a.end
+		from club_level a 
+	</sql>
+	
+	<select id="list" parameterType="Level"  resultType="Level" >
+		<include refid="selectAllVO"/>
+		order by a.sort desc
+	</select>
+	
+	<select id="getById"  parameterType="Long"  resultType="Level" >
+		<include refid="selectAllVO"/>
+		where a.id = #{id}
+	</select>
+	
+	
+	<delete id="deleteByIds" >
+ 		delete from club_level 
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        	#{id}
+        </foreach>
+ 	</delete>
+ 	
+ 	
+ 	<update id="update" parameterType="Level">
+ 		update club_level
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="sort != null">sort = #{sort},</if>
+ 			<if test="start != null">start = #{start},</if>
+ 			<if test="end != null">end = #{end},</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="add" parameterType="Level" useGeneratedKeys="true" keyProperty="id">
+ 		insert into club_level(
+ 			
+ 			<if test="sort != null">sort,</if>
+ 			<if test="start != null">start,</if>
+ 			<if test="end != null">end,</if>
+ 			<if test="name != null and name != ''">name</if>
+ 		)values(
+ 			
+ 			<if test="sort != null">#{sort},</if>
+ 			<if test="start != null">#{start},</if>
+ 			<if test="end != null">#{end},</if>
+ 			<if test="name != null and name != ''">#{name}</if>
+ 		)
+	</insert>
+	
+	
+	<select id="getByUserId" parameterType="Long" resultType="UserLevel">
+		select
+			a.level_id as "level.id",
+			b.name as "level.name"
+		from club_user_level a 
+			left join club_level b on a.level_id = b.id
+		where a.user_id = #{userId}	
+	</select>
+	
+	<insert id="addUserLevel">
+		insert into club_user_level(user_id,level_id) values(#{user.userId},#{level.id})
+	</insert>
+	
+	<update id="updateUserLevel">
+		update club_user_level set level_id = #{level.id} where user_id = #{user.id}
+	</update>
+ 	
+
+</mapper>

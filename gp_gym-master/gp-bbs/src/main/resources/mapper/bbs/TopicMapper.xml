@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.bbs.dao.TopicDao">
+	
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.title,
+			a.time,
+			a.numSee,
+			a.numReply,
+			a.content,
+			a.roleName,
+			a.section_id as "section.id",
+			b.name as "section.name",
+			a.user_id as "user.userId",
+			c.user_name as "user.userName",
+			c.avatar as "user.avatar"
+		from bbs_topic a 
+			left join bbs_section b on a.section_id = b.id
+			left join sys_user c on a.user_id = c.user_id
+	</sql>
+	
+	<select id="list" parameterType="Topic" resultType="Topic" >
+		<include refid="selectAllVO" />
+		where 1 = 1
+		<if test="user != null and user.userId != null">
+			and a.user_id = #{user.userId}
+		</if>
+		<if test="title != null and title != ''">
+			and a.title like concat('%',#{title},'%')
+		</if>
+		<if test="section != null and section.id != null">
+			and a.section_id = #{section.id}
+		</if>
+		order by a.time desc
+	</select>
+	
+	<select id="getById" parameterType="Long" resultType="Topic" >
+		<include refid="selectAllVO" />
+		where a.id = #{id}
+	</select>
+	
+	<insert id="add">
+		insert into bbs_topic(title,time,content,roleName,section_id,user_id) 
+		values(#{title},#{time},#{content},#{roleName},#{section.id},#{user.userId})
+	</insert>
+	
+	<update id="update">
+		update bbs_topic set title = #{title}, 
+		<if test="section != null and section.id != null">section_id = #{section.id},</if>
+		content = #{content}
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById">
+		delete from bbs_topic where id = #{id}
+	</delete>
+	
+	<update id="updateSee">
+		update bbs_topic set numSee = numSee+1 where id = #{id}
+	</update>
+	
+	<update id="updateReply">
+		update bbs_topic set numReply = numReply+1 where id = #{id}
+	</update>
+
+</mapper>

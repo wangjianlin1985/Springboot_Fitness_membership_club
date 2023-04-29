@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.MachineioDao">
+
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.num,
+			a.time,
+			a.type,
+			a.io,
+			a.machine_id as "machine.id",
+			a.machine_id as machineId
+		from club_machineio a 
+	</sql>
+	
+	
+	<select id="list" parameterType="Machineio" resultType="Machineio" >
+		 <include refid="selectAllVO"/>
+		 where 1 = 1
+		 <if test="machine != null and machine.id != null">
+		 	and a.machine_id = #{machine.id}
+		 </if>
+		 <if test="machineId != null">
+		 	and a.machine_id = #{machineId}
+		 </if>
+		 order by a.time desc
+	</select>
+
+	<select id="getById" parameterType="Long" resultType="Machineio" >
+		 <include refid="selectAllVO"/>
+		 where a.id = #{id}	 
+	</select>
+
+	<insert id="add">
+		insert into club_machineio(num,time,type,io,machine_id) values(#{num},#{time},#{type},#{io},#{machine.id})
+	</insert>
+
+
+</mapper>

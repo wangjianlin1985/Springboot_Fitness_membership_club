@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.MachineDao">
+	
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.name,
+			a.num
+		from club_machine a 
+	</sql>
+	
+	<select id="list" resultType="Machine" >
+		<include refid="selectAllVO" />
+	</select>
+	
+	<select id="getById" resultType="Machine" >
+		<include refid="selectAllVO" />
+		where a.id = #{id}
+	</select>
+	
+	<delete id="deleteByIds" >
+ 		delete from club_machine 
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        	#{id}
+        </foreach>
+ 	</delete>
+ 	
+ 	
+ 	<update id="update" parameterType="Machine">
+ 		update club_machine
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="num != null">num = #{num},</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+	
+	<insert id="add">
+		insert into club_machine(name,num) values (#{name},0)
+	</insert>
+	
+
+</mapper>

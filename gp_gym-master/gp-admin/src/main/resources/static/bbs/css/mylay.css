@@ -1,0 +1,69 @@
+.fly-list-like{color: #FF5722;}
+.icon-like{font-size: 18px;}
+.rightbtn{
+    float: right;
+    margin: 10px;
+}
+
+.layui-form-selectup dl {
+    top: 42px;
+    bottom: unset;
+}
+
+.video iframe{
+    width: 100%;
+}
+
+.video img{
+    max-width: 100%;
+}
+
+
+.niter-avatar img{
+
+    /* border: 1px solid #fff;*/
+    -webkit-transition: .8s;
+    -moz-transition: .8s;
+    -o-transition: .8s;
+    -ms-transition: .8s;
+}
+.niter-avatar img:hover{
+    -moz-box-shadow:0 3px 10px #888;
+    -webkit-box-shadow:0 3px 10px #888;
+    transform:rotate(720deg);
+    -webkit-transform:rotate(720deg);
+    -moz-transform:rotate(720deg);
+    -o-transform:rotate(720deg);
+    -ms-transform:rotate(720deg);
+    border-radius:35px;
+}
+
+.p-detail blockquote{
+    margin-bottom:10px;
+    padding:5px;
+    line-height:22px;
+    border-left:5px solid #01aaed;
+    border-radius:0 2px 2px 0;
+    background-color:#f8f8f8;
+}
+
+.p-detail p{
+margin-bottom: 5px;
+}
+
+.p-detail h1, h2, h3, h4, h5, h6{
+    margin-bottom: 0.5em;
+}
+
+.layui-text ol{
+   padding: 5px 0 5px 15px;
+}
+
+.layui-text ol li{
+    margin-top:5px;
+    list-style-type: decimal;
+}
+
+.layui-clear img{
+    max-height: 22px;
+}

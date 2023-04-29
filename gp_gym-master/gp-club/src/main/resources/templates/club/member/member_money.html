@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('余额列表')" />
+</head>
+<body class="gray-bg">
+	
+	<div class="">
+		<div class="container-div">
+			<div class="row">
+		        <div class="col-sm-12 select-table table-striped">
+				    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	<script th:inline="javascript">
+		var prefix = ctx + "club/member";
+
+		$(function() {
+		    init();
+		});
+
+		function init() {
+		    var options = {
+		        url: prefix + "/moneyList",
+		        modalName: "会员",
+		        columns: [
+		        {
+		            field: 'userId',
+		            title: '用户ID'
+		        },
+		        {
+		            field: 'loginName',
+		            title: '登录名称'
+		        },
+		        {
+		            field: 'userName',
+		            title: '用户名称'
+		        },
+		        {
+		            field: 'birth',
+		            title: '生日'
+		        },
+		        {
+		            field: 'balance',
+		            title: '余额'
+		        },
+		        {
+		            field: 'phonenumber',
+		            title: '手机'
+		        }]
+		    };
+		    $.table.init(options);
+		}
+	</script>
+</body>
+</html>

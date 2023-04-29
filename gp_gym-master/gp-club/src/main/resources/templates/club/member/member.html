@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('会员列表')" />
+	<th:block th:include="include :: layout-latest-css" />
+	<th:block th:include="include :: ztree-css" />
+</head>
+<body class="gray-bg">
+	
+	<div class="">
+		<div class="container-div">
+			<div class="row">
+				<div class="col-sm-12 search-collapse">
+					<form id="user-form">
+						<div class="select-list">
+							<ul>
+								<li>
+									登录名称：<input type="text" name="loginName"/>
+								</li>
+								<li>
+                                    姓名：<input type="text" name="userName"/>
+                                </li>
+								<li>
+									手机号码：<input type="text" name="phonenumber"/>
+								</li>
+								<li>
+									<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								    <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+								</li>
+							</ul>
+						</div>
+					</form>
+				</div>
+				
+		        <div class="btn-group-sm" id="toolbar" role="group">
+		        	<a class="btn btn-success" onclick="$.operate.addTab()" >
+		                <i class="fa fa-plus"></i> 新增
+		            </a>
+		             <a class="btn btn-primary single disabled" onclick="$.operate.editTab()" >
+			            <i class="fa fa-edit"></i> 修改
+			        </a>
+		            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" >
+		                <i class="fa fa-remove"></i> 删除
+		            </a>
+		        </div>
+		        
+		        <div class="col-sm-12 select-table table-striped">
+				    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	<th:block th:include="include :: layout-latest-js" />
+	<th:block th:include="include :: ztree-js" />
+	<script th:inline="javascript">
+		var prefix = ctx + "club/member";
+
+		$(function() {
+		    init();
+		});
+
+		function init() {
+		    var options = {
+		        url: prefix + "/list",
+		        createUrl: prefix + "/add",
+		        updateUrl: prefix + "/edit/{id}",
+		        removeUrl: prefix + "/remove",
+		        exportUrl: prefix + "/export",
+		        sortName: "createTime",
+		        sortOrder: "desc",
+		        modalName: "会员",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'userId',
+		            title: '用户ID'
+		        },
+		        {
+		            field: 'loginName',
+		            title: '登录名称'
+		        },
+		        {
+		            field: 'levelName',
+		            title: '会员等级'
+		        },
+		        {
+		            field: 'userName',
+		            title: '用户名称'
+		        },
+		        {
+		            field: 'birth',
+		            title: '生日'
+		        },
+		        {
+		            field: 'email',
+		            title: '邮箱',
+		            visible: false
+		        },
+		        {
+		            field: 'phonenumber',
+		            title: '手机'
+		        },
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		                var actions = [];
+		                actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="$.operate.editTab(\'' + row.userId + '\')"><i class="fa fa-edit"></i>修改</a> ');
+		                actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.userId + '\')"><i class="fa fa-remove"></i>删除</a> ');
+		                actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="resetPwd(\'' + row.userId + '\')"><i class="fa fa-key"></i>重置</a>');
+		                
+		                actions.push('<a class="btn btn-primary btn-xs" href="javascript:void(0)" onclick="card(\'' + row.userId + '\')">卡号管理</a>');
+		                return actions.join('');
+		            }
+		        }]
+		    };
+		    $.table.init(options);
+		}
+		
+		/* 用户管理-重置密码 */
+		function resetPwd(userId) {
+		    var url = prefix + '/resetPwd/' + userId;
+		    $.modal.open("重置密码", url, '800', '300');
+		}
+		
+		function card(userId){
+			var url = ctx + '/club/card/' + userId;
+		    $.modal.open("卡管理", url, '900', '600');
+		}
+		
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.DetailDao">
+
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.record_id as "record.id",
+			a.record_id as recordId,
+			a.project_id as "project.id",
+			b.name as "project.name",
+			b.money as "project.money",
+			a.start_time as startTime,
+			a.end_time as endTime,
+			a.machine_id as "machine.id",
+			c.name as "machine.name",
+			a.money,
+			a.coach_id as "coach.userId",
+			d.user_name as "coach.userName"
+		from club_detail a 
+			left join club_project b on a.project_id = b.id
+			left join club_machine c on a.machine_id = c.id
+			left join sys_user d on a.coach_id = d.user_id
+	</sql>
+	
+	
+	<select id="list" parameterType="Detail"  resultType="Detail" >
+		<include refid="selectAllVO" />
+		where a.record_id = #{recordId}
+		order by a.start_time desc
+	</select>
+	
+	<select id="getById"  parameterType="Long"  resultType="Detail" >
+		<include refid="selectAllVO"/>
+		where a.id = #{id}
+	</select>
+	
+	
+	<delete id="deleteByIds" >
+ 		delete from club_detail 
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        	#{id}
+        </foreach>
+ 	</delete>
+ 	
+ 	<insert id="add" parameterType="Detail" useGeneratedKeys="true" keyProperty="id">
+ 		insert into club_detail(
+ 			record_id,project_id,start_time,end_time,machine_id,coach_id,money
+ 		)values(
+ 			#{record.id},#{project.id},#{startTime},#{endTime},#{machine.id},#{coach.userId},#{money}
+ 		)
+	</insert>
+
+
+</mapper>

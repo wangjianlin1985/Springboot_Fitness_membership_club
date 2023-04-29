@@ -1,0 +1,262 @@
+body{
+    background-color: #efefef;
+
+}
+
+.main{
+    background-color: white;
+    margin: 20px;
+    margin-top: 70px;
+}
+
+.btnpublish{
+    float: right;
+    margin-bottom: 15px;
+}
+
+.media-object {
+    width: 40px;
+    height: 40px;
+}
+
+.media-body {
+    padding-top: 10px;
+}
+
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.profile .section{
+    margin-top: 15px;
+}
+
+.question-title {
+    margin-top: 25px;
+}
+
+.question-tag {
+    margin-right: 5px;
+}
+
+.question-related {
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-wechat {
+    width: 100%;
+}
+
+.publish-tag-tab {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.publish-tag-tab .label-info {
+    white-space: normal;
+    margin: 5px 5px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.community-menu{
+    color: #999;
+    font-size: 13px;
+}
+
+.community-menu img{
+    height: 13px;
+}
+
+.community-tag:hover {
+    background-color: #339dff;
+    color: #fff !important;
+    text-decoration-line: none;
+}
+
+.community-tag {
+    text-decoration-line: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    line-height: 16px;
+    padding: 2px 5px;
+    background-color: #99cfff;
+    font-size: 12px;
+    color: #fff !important;
+    border-radius: 4px;
+    margin: 4px;
+}
+
+.comment {
+    margin: 10px 0;
+}
+
+.comments {
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.sub-comments {
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    margin-bottom: 15px;
+}
+
+.sub-comments .btn {
+    margin: 10px 0;
+}
+
+.menu {
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon {
+    margin-right: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .comment-icon {
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .comment-icon .likecount{
+   margin-left: -8px;
+}
+
+.menu .comment-icon :hover {
+    color: #499ef3;
+}
+
+.menu .active {
+    color: #499ef3;
+}
+
+.menu .new {
+    color: #499ef3;
+}
+
+.menu .icon:hover {
+    color: #499ef3;
+}
+
+.footer {
+    padding: 10px 25%;
+    color: #666;;
+}
+
+.red {
+    color: red !important;
+}
+
+
+
+
+.w-e-item img{
+    height:25px;
+}
+
+.video {
+    padding: 30px;
+}
+
+.video img {
+    max-width: 100%;
+}
+
+
+.niter-avatar img{
+
+   /* border: 1px solid #fff;*/
+    -webkit-transition: .8s;
+    -moz-transition: .8s;
+    -o-transition: .8s;
+    -ms-transition: .8s;
+}
+.niter-avatar img:hover{
+    -moz-box-shadow:0 3px 10px #888;
+    -webkit-box-shadow:0 3px 10px #888;
+    transform:rotate(720deg);
+    -webkit-transform:rotate(720deg);
+    -moz-transform:rotate(720deg);
+    -o-transform:rotate(720deg);
+    -ms-transform:rotate(720deg);
+    border-radius:35px;
+}
+
+
+
+.image-light,.image-light > img{
+    display: block;
+}
+/*父容器*/
+.image-light{
+    overflow: hidden;
+    position: relative; /*设置为相对*/
+}
+/*图片*/
+
+/*流光（采用伪类实现，当然也可以是子元素）*/
+.image-light:after{
+    content: '';
+    position: absolute; /*相对父级绝对定位*/
+    width: 80px;
+    height: 100%;
+    top: 0;
+    left: -200px;  /*起始位置*/
+    overflow: hidden;
+    z-index:9;
+    /*背景渐变（兼容性写法）*/
+    background: -moz-linear-gradient(left,rgba(255,255,255,0) 0,rgba(255,255,255,.3) 50%,rgba(255,255,255,0) 100%);
+    background: -webkit-gradient(linear,left top,right top,color-stop(0%,rgba(255,255,255,0)),color-stop(50%,rgba(255,255,255,.3)),color-stop(100%,rgba(255,255,255,0)));
+    background: -webkit-linear-gradient(left,rgba(255,255,255,0) 0,rgba(255,255,255,.3) 50%,rgba(255,255,255,0) 100%);
+    background: -o-linear-gradient(left,rgba(255,255,255,0) 0,rgba(255,255,255,.3)50%,rgba(255,255,255,0) 100%);
+    background: linear-gradient(left,rgba(255,255,255,0) 0,rgba(255,255,255,.3) 50%,rgba(255,255,255,0) 100%);
+    -webkit-transform: skewX(-25deg);/*倾斜*/
+    -moz-transform: skewX(-25deg);
+    transform: skewX(-25deg);
+}
+/*鼠标滑过*/
+.image-light:hover:after{
+    -webkit-transition: left 1s ease-in-out; /*过渡*/
+    transition: left 1s ease-in-out;
+    left:120%; /*结束位置*/
+}
+
+.chat{ width:50px;
+    height:50px;
+    position:fixed;
+    right:0;
+    bottom:0;}
+
+.icon20{
+    width:20px;
+    height:20px;
+}
+
+.icon128{
+    width:128px;
+    height:128px;
+}
+
+.icon64{
+    width:64px;
+    height:64px;
+}
+
+.loginIcon{
+    margin: 5px 10px;
+}

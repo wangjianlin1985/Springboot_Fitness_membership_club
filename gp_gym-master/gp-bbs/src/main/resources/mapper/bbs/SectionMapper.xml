@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.bbs.dao.SectionDao">
+
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.name,
+			a.sort,
+			a.user_id as "user.userId",
+			b.user_name as "user.userName",
+			b.avatar as "user.avatar"
+		from bbs_section a 
+			left join sys_user b on a.user_id = b.user_id
+	</sql>
+	
+	<select id="list" parameterType="Section" resultType="Section" >
+		<include refid="selectAllVO" />
+		<if test="user != null and user.userId != null">
+			where a.user_id = #{user.userId}
+		</if>
+		order by a.sort desc
+	</select>
+	
+	
+	<select id="getById"  parameterType="Long"  resultType="Section" >
+		<include refid="selectAllVO"/>
+		where a.id = #{id}
+	</select>
+	
+	
+	<delete id="deleteByIds" >
+ 		delete from bbs_section 
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        	#{id}
+        </foreach>
+ 	</delete>
+ 	
+ 	
+ 	<update id="update" parameterType="Section">
+ 		update bbs_section
+ 		<set>
+ 			<if test="name != null and name != ''">name = #{name},</if>
+ 			<if test="sort != null">sort = #{sort},</if>
+ 			<if test="user != null and user.userId != null ">user_id = #{user.userId},</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="add" parameterType="Section" useGeneratedKeys="true" keyProperty="id">
+ 		insert into bbs_section(
+ 			
+ 			<if test="sort != null">sort,</if>
+ 			<if test="user != null and user.userId != null ">user_id,</if>
+ 			<if test="name != null and name != ''">name</if>
+ 		)values(
+ 			
+ 			<if test="sort != null">#{sort},</if>
+ 			<if test="user != null and user.userId != null ">#{user.userId},</if>
+ 			<if test="name != null and name != ''">#{name}</if>
+ 		)
+	</insert>
+
+</mapper>

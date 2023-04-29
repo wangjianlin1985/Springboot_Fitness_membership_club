@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+	 <link rel="stylesheet" th:href="@{/bbs/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/global.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/mylay.css}">
+		<link rel="stylesheet" th:href="@{/bbs/css/wap2app.css}">
+		<link rel="icon"  type="image/x-icon">
+		<script th:src="@{/bbs/js/util.js}"></script>
+		<script th:src="@{/bbs/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/bbs/js/community.js}" type="application/javascript"></script>
+		<script th:src="@{/bbs/js/sweetalert.min.js}"></script>
+		<script th:src="@{/bbs/js/plusShare.js}" type="text/javascript"></script>
+		<script th:src="@{/bbs/js/wap2app.js}" type="text/javascript"></script>
+		<link rel="stylesheet" th:href="@{/bbs/css/community.css}">
+  
+<body>
+
+<div></div>
+
+
+
+<div class="layui-container">
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md8 content detail">
+      <div class="fly-panel detail-box">
+        <h1 th:text="${topic.title}">测试</h1>
+        <div class="fly-detail-info">
+          <a class="layui-badge layui-bg-green" th:text="${topic.roleName}" >角色</a>
+
+          <span class="fly-list-nums">
+            <a href="#comment"><i class="iconfont" title="回复"></i><span th:text="${topic.numReply}"></span></a>
+            <i class="iconfont" title="浏览"></i><span th:text="${topic.numSee}"></span>
+          </span>
+        </div>
+        <div class="detail-about">
+          <a class="fly-avatar niter-avatar" >
+            <img th:src="@{${topic.user.avatar}}" th:alt="${topic.user.userName}">
+          </a>
+          <div class="fly-detail-user">
+            <a  class="fly-link" >
+              <cite  th:text="${topic.user.userName}">发表人</cite>
+            </a>
+            <span th:text="${topic.time}"></span> 发表
+          </div>
+          <div class="detail-hits" id="LAY_jieAdmin" >
+            <span style="padding-right: 10px; color: #FF7200"></span>
+            </div>
+        </div>
+      
+        <div style="margin-top: 20px;margin-bottom: 20px"
+         class="layui-text layui-table video photos p-detail" id="descriptionP" th:text="${topic.content}">
+         </div>
+
+      </div>
+
+      <div class="fly-panel detail-box" id="flyReply">
+        <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+          <legend th:text="${replySize} + '个回复'"></legend>
+        </fieldset>
+        <ul class="jieda" id="jieda"  th:each="reply : ${replyList}" >
+          <li  class="jieda-daan">
+            <a name="item-1111111111"></a>
+            <div class="detail-about detail-about-reply">
+              <a class="fly-avatar niter-avatar">
+                <img th:src="@{${reply.user.avatar}}" th:alt="${reply.user.userName}">
+              </a>
+              <div class="fly-detail-user">
+                <a  class="fly-link" >
+                  <cite th:text="${reply.user.userName}"></cite>
+                </a>
+                <span th:if="${reply.louzhu}">(楼主)</span>
+           
+              </div>
+
+              <div class="detail-hits">
+                <span th:text="${topic.time}" >10月25日 10:14</span>
+              </div>
+            </div>
+            <div class="detail-body jieda-body photos" th:text="${reply.content}">回复内容</div>
+          </li>
+
+        </ul>
+        
+       
+
+        <div class="layui-form layui-form-pane">
+          <input type="hidden" id="question_id" value="1360">
+          <div class="layui-form-item layui-form-text">
+            <a name="comment"></a>
+            <div class="layui-input-block">
+              <textarea id="content" name="content" required="" lay-verify="required" placeholder="请输入内容" class="layui-textarea talk-editor" style="height: 150px;"></textarea>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <input type="hidden" >
+            <button onclick="reply()" class="layui-btn">回复</button>
+          </div>
+          
+        </div>
+      </div>
+
+     
+    </div>
+    
+  </div>
+</div>
+<input type="hidden" id="topicId" th:value="${topic.id}" />
+<script>
+	
+	function reply(){
+		var content = $("#content").val()
+		if(content == null || content == ''){
+			alert('请输入内容')
+			return;
+		}
+		$.ajax({
+			url: '/gym/bbs/topic/addReply',
+			data: {
+				content: content,
+				topicId: $("#topicId").val()
+			},
+			success: function(res){
+				if(res.code == 0){
+					alert('回复成功')
+					location.reload();
+				}
+			}
+		});
+		
+	}
+</script>
+
+
+
+</body></html>

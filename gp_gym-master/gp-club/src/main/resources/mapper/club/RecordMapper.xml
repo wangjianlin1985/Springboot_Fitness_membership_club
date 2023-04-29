@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.RecordDao">
+	
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.content,
+			a.money,
+			a.start_time as startTime,
+			a.end_time as endTime,
+			a.user_id as "user.userId",
+			b.user_name as "user.userName",
+			a.status
+		from club_record a 
+			left join sys_user b on a.user_id = b.user_id
+	</sql>
+	
+	<select id="list" parameterType="Record"  resultType="Record" >
+		<include refid="selectAllVO" />
+		where 1 = 1
+		<if test="status != null">
+			and a.status = #{status}
+		</if>
+		<if test="user != null and user.userId != null">
+			and a.user_id = #{user.userId}
+		</if>
+		<if test="user != null and user.userName != null and user.userName != ''">
+			and b.user_name like concat('%',#{user.userName},'%')
+		</if>
+		order by a.start_time desc
+	</select>
+	
+	<select id="getById"  parameterType="Long"  resultType="Record" >
+		<include refid="selectAllVO"/>
+		where a.id = #{id}
+	</select>
+	
+	
+	<delete id="deleteByIds" >
+ 		delete from club_record 
+        where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+        	#{id}
+        </foreach>
+ 	</delete>
+ 	
+ 	
+ 	<update id="update" parameterType="Record">
+ 		update club_record
+ 		<set>
+ 			<if test="content != null and content != ''">content = #{content},</if>
+ 			<if test="money != null">money = #{money},</if>
+ 			<if test="startTime != null">start_time = #{startTime},</if>
+ 			<if test="endTime != null">end_time = #{endTime},</if>
+ 			<if test="status != null">status = #{status},</if>
+ 		</set>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="add" parameterType="Record" useGeneratedKeys="true" keyProperty="id">
+ 		insert into club_record(
+ 			<if test="startTime != null">start_time,</if>
+ 			<if test="endTime != null">end_time,</if>
+ 			<if test="content != null and content != ''">content,</if>
+ 			money,user_id
+ 		)values(
+ 			<if test="money != null">#{money},</if>
+ 			<if test="startTime != null">#{startTime},</if>
+ 			<if test="endTime != null">#{endTime},</if>
+ 			<if test="content != null and content != ''">#{content},</if>
+ 			0,#{user.userId}
+ 		)
+	</insert>
+ 	
+
+</mapper>

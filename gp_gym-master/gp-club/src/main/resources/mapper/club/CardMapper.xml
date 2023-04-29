@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.club.dao.CardDao">
+
+	<sql id="selectAllVO">
+		select
+			a.id,
+			a.code,
+			a.balance,
+			a.status,
+			a.start_time as startTime,
+			a.end_time as endTime,
+			a.type,
+			a.user_id as "user.userId",
+			a.user_id as userId
+		from club_card a 
+	</sql>
+	
+	
+	<select id="list" parameterType="Card" resultType="Card" >
+		 <include refid="selectAllVO"/>
+		 where 1 = 1
+		 <if test="code != null and code != ''">
+		 	and a.code like concat('%',#{code},'%')
+		 </if>
+		 <if test="user != null and user.userId != null">
+		 	and a.user_id = #{user.userId}
+		 </if>
+		 <if test="userId != null">
+		 	and a.user_id = #{userId}
+		 </if>
+		 <if test="status != null">
+		 	and a.status = #{status}
+		 </if>
+	</select>
+
+	<select id="getById" parameterType="Long" resultType="Card" >
+		 <include refid="selectAllVO"/>
+		 where a.id = #{id}	 
+	</select>
+	
+	<select id="getByUserId" parameterType="Long" resultType="Card" >
+		 <include refid="selectAllVO"/>
+		 where a.user_id = #{userId} and a.status = 0 limit 1	 
+	</select>
+	
+	<update id="updateType">
+		update club_card set type = #{type} where id = #{id}
+	</update>
+	
+	<update id="updateStatus">
+		update club_card set status = #{status} where id = #{id}
+	</update>
+	
+	<update id="updateBalance">
+		update club_card set balance = #{balance} where id = #{id}
+	</update>
+	
+	<update id="updateXuka">
+		update club_card set end_time = #{endTime} where id = #{id}
+	</update>
+	
+	<update id="updateChongzhi">
+		update club_card set balance = balance + #{balance} where id = #{id}
+	</update>
+	
+	<update id="updateXiaofei">
+		update club_card set balance = balance - #{balance} where id = #{id}
+	</update>
+
+	<insert id="add">
+		insert into club_card(user_id,code,balance,status,start_time,end_time,type) values(#{user.userId},#{code},#{balance},0,#{startTime},#{endTime},#{type})
+	</insert>
+</mapper>

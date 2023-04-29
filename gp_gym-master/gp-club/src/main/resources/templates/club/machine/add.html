@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增器械')" />
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-item-add">
+		    
+			<div class="form-group">
+				<label class="col-sm-3 control-label"><span style="color: red; ">*</span>器械名称：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="name" id="name" required>
+				</div>
+			</div>
+				
+		</form>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	
+	<script type="text/javascript">
+		var prefix = ctx + "club/machine";
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/add", $('#form-item-add').serialize());
+	        }
+	    }
+		
+		$("#form-item-add").validate({
+			onkeyup: false,
+			rules:{
+				sort:{
+					digits:true
+				}
+			},
+			messages: {
+		        
+		    },
+		    focusCleanup: true
+		});
+		
+		
+		
+	</script>
+</body>
+</html>

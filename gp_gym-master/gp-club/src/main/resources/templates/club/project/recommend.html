@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<th:block th:include="include :: header('项目列表')" />
+</head>
+<!-- 上面引入了shiro的thymeleaf支持 -->
+<!-- 引入用到的css -->
+
+<body class="gray-bg">
+
+	<div class="container-div">
+		<div class="row">
+	        
+	        <div class="col-sm-12 select-table table-striped">
+			    <table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+			
+		</div>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	
+	<script th:inline="javascript">
+		var prefix = ctx + "club/project";
+		$(function() {
+		    var options = {
+		        url: prefix + "/recommendList",
+		        modalName: "项目",
+		        columns: [{
+		            checkbox: true
+		        },
+		        {
+		            field: 'id',
+		            title: '项目编号'
+		        },
+		        {
+		            field: 'name',
+		            title: '项目名称'
+		        },
+		        {
+		            field: 'money',
+		            title: '价格（元/时）'
+		        },
+		        {
+		            field: 'disease',
+		            title: '以下疾病不能参与'
+		        }]
+		    };
+		    $.table.init(options);
+		});
+	</script>
+</body>
+</html>

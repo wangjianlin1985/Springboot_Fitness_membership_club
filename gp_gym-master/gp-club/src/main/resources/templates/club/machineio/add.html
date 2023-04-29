@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<th:block th:include="include :: header('新增')" />
+</head>
+
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-item-add">
+		    <input type="hidden" th:value="${machineId}" name="machine.id" />
+			<div class="form-group">
+				<label class="col-sm-3 control-label">数量：</label>
+				<div class="col-sm-8">
+					<input class="form-control" value=0 type="number" name="num" id="num" required>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-3 control-label">进出：</label>
+				<div class="col-sm-8">
+					<select class="form-control"  name="io" id="io"  >
+						<option value=0>进库</option>
+						<option value=1>出库</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">类型：</label>
+				<div class="col-sm-8">
+					<select name="type" class="form-control m-b" th:with="type=${@dict.getType('iotype')}">
+		                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+		            </select>
+				</div>
+			</div>	
+				
+				
+		</form>
+	</div>
+	
+	<th:block th:include="include :: footer" />
+	
+	<script type="text/javascript">
+		var prefix = ctx + "club/machine/io";
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/add", $('#form-item-add').serialize());
+	        }
+	    }
+		
+		$("#form-item-add").validate({
+			onkeyup: false,
+			rules:{
+				sort:{
+					digits:true
+				}
+			},
+			messages: {
+		        
+		    },
+		    focusCleanup: true
+		});
+		
+		
+		
+	</script>
+</body>
+</html>
